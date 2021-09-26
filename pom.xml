@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.medical.dispense.system</groupId>
+	<artifactId>medical-dispensary</artifactId>
+	<packaging>war</packaging>
+	<version>1.0.0</version>
+	<name>medical-dispensary Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<jakartaee-api.version>8.0.0</jakartaee-api.version>
+		<jakartaee-persistence.version>2.2.3</jakartaee-persistence.version>
+		<weld-core.version>4.0.2.Final</weld-core.version>
+		<org-postgresql.version>42.2.23</org-postgresql.version>
+		<swagger-jersey.version>1.6.2</swagger-jersey.version>
+		<compiler-plugin.version>3.8.1</compiler-plugin.version>
+		<war-plugin.version>3.3.2</war-plugin.version>
+	</properties>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+			<version>${jakartaee-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.jboss.weld.se/weld-se-core -->
+		<dependency>
+			<groupId>org.jboss.weld.se</groupId>
+			<artifactId>weld-se-core</artifactId>
+			<version>${weld-core.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/jakarta.persistence -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>jakarta.persistence</artifactId>
+			<version>${jakartaee-persistence.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jersey2-jaxrs</artifactId>
+			<version>${swagger-jersey.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>medical-dispensary</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${compiler-plugin.version}</version>
+			</plugin>
+			<plugin>
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${war-plugin.version}</version>
+				<configuration>
+					<outputDirectory>${env.PAYARA_HOME}\glassfish\domains\domain1\autodeploy</outputDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
