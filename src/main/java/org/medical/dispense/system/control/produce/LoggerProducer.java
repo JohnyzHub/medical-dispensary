@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.medical.dispense.system.control.produce;
 
 import java.util.logging.Logger;

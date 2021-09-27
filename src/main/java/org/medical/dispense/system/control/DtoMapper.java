@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.medical.dispense.system.control;
 
 import org.medical.dispense.system.entity.Prescription;

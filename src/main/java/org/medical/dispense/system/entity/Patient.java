@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.medical.dispense.system.entity;
 
 import java.io.Serializable;
