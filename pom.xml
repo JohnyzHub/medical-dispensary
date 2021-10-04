@@ -20,6 +20,7 @@
 		<weld-core.version>4.0.2.Final</weld-core.version>
 		<org-postgresql.version>42.2.23</org-postgresql.version>
 		<swagger-jersey.version>1.6.2</swagger-jersey.version>
+		<version.jboss-javaee>1.1.0.Final</version.jboss-javaee>
 		<compiler-plugin.version>3.8.1</compiler-plugin.version>
 		<war-plugin.version>3.3.2</war-plugin.version>
 	</properties>
@@ -52,6 +53,14 @@
 		</dependency>
 
 		<dependency>
+                        <groupId>org.jboss.spec</groupId>
+                        <artifactId>jboss-javaee-7.0</artifactId>
+                        <version>${version.jboss-javaee}</version>
+                        <type>pom</type>
+                        <scope>provided</scope>
+                </dependency>
+		
+		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-jersey2-jaxrs</artifactId>
 			<version>${swagger-jersey.version}</version>
@@ -65,15 +74,41 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${compiler-plugin.version}</version>
 			</plugin>
-			<plugin>
-				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>${war-plugin.version}</version>
-				<configuration>
-					<outputDirectory>${env.PAYARA_HOME}\glassfish\domains\domain1\autodeploy</outputDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
+
+      <!--*************************************************-->
+      <!-- Deploy to JBoss EAP in App Service Linux           -->
+      <!--*************************************************-->
+
+      <plugin>
+        <groupId>com.microsoft.azure</groupId>
+        <artifactId>azure-webapp-maven-plugin</artifactId>
+        <version>1.16.1</version>
+        <configuration>
+          <schemaVersion>v2</schemaVersion>
+          <subscriptionId>${SUBSCRIPTION}</subscriptionId>
+          <resourceGroup>${RESOURCE_GROUP}</resourceGroup>
+          <appName>${WEBAPP}</appName>
+          <pricingTier>P1v3</pricingTier>
+          <region>${REGION}</region>
+          <runtime>
+            <os>Linux</os>
+            <javaVersion>Java 11</javaVersion>
+            <webContainer>Jbosseap 7.2</webContainer>
+          </runtime>
+          <deployment>
+            <resources>
+              <resource>
+                <type>war</type>
+                <directory>${project.basedir}/target</directory>
+                <includes>
+                  <include>*.war</include>
+                </includes>
+              </resource>
+            </resources>
+          </deployment>
+        </configuration>
+      </plugin>
+			
+	</plugins>
 	</build>
 </project>
