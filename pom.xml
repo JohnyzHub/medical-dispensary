@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -20,7 +21,8 @@
 		<weld-core.version>4.0.2.Final</weld-core.version>
 		<org-postgresql.version>42.2.23</org-postgresql.version>
 		<swagger-jersey.version>1.6.2</swagger-jersey.version>
-		<version.jboss-javaee>1.1.0.Final</version.jboss-javaee>
+		<jboss-javaee.version>1.0.1.Final</jboss-javaee.version>
+		<azure-webapp.version>1.16.1</azure-webapp.version>
 		<compiler-plugin.version>3.8.1</compiler-plugin.version>
 		<war-plugin.version>3.3.2</war-plugin.version>
 	</properties>
@@ -52,14 +54,16 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.jboss.spec/jboss-jakartaee-8.0 -->
 		<dependency>
-                        <groupId>org.jboss.spec</groupId>
-                        <artifactId>jboss-javaee-7.0</artifactId>
-                        <version>${version.jboss-javaee}</version>
-                        <type>pom</type>
-                        <scope>provided</scope>
-                </dependency>
-		
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-jakartaee-8.0</artifactId>
+			<version>${jboss-javaee.version}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+
+
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-jersey2-jaxrs</artifactId>
@@ -75,40 +79,39 @@
 				<version>${compiler-plugin.version}</version>
 			</plugin>
 
-      <!--*************************************************-->
-      <!-- Deploy to JBoss EAP in App Service Linux           -->
-      <!--*************************************************-->
 
-      <plugin>
-        <groupId>com.microsoft.azure</groupId>
-        <artifactId>azure-webapp-maven-plugin</artifactId>
-        <version>1.16.1</version>
-        <configuration>
-          <schemaVersion>v2</schemaVersion>
-          <subscriptionId>${SUBSCRIPTION}</subscriptionId>
-          <resourceGroup>${RESOURCE_GROUP}</resourceGroup>
-          <appName>${WEBAPP}</appName>
-          <pricingTier>P1v3</pricingTier>
-          <region>${REGION}</region>
-          <runtime>
-            <os>Linux</os>
-            <javaVersion>Java 11</javaVersion>
-            <webContainer>Jbosseap 7.2</webContainer>
-          </runtime>
-          <deployment>
-            <resources>
-              <resource>
-                <type>war</type>
-                <directory>${project.basedir}/target</directory>
-                <includes>
-                  <include>*.war</include>
-                </includes>
-              </resource>
-            </resources>
-          </deployment>
-        </configuration>
-      </plugin>
-			
-	</plugins>
+			<!--************************************************* -->
+			<!-- Deploy to JBoss EAP in App Service Linux -->
+			<!--************************************************* -->
+			<plugin>
+				<groupId>com.microsoft.azure</groupId>
+				<artifactId>azure-webapp-maven-plugin</artifactId>
+				<version>${azure-webapp.version}</version>
+				<configuration>
+					<schemaVersion>v2</schemaVersion>
+					<subscriptionId>${SUBSCRIPTION}</subscriptionId>
+					<resourceGroup>${RESOURCE_GROUP}</resourceGroup>
+					<appName>${WEBAPP}</appName>
+					<pricingTier>P1v3</pricingTier>
+					<region>${REGION}</region>
+					<runtime>
+						<os>Linux</os>
+						<javaVersion>Java 11</javaVersion>
+						<webContainer>Jbosseap 7.2</webContainer>
+					</runtime>
+					<deployment>
+						<resources>
+							<resource>
+								<type>war</type>
+								<directory>${project.basedir}/target</directory>
+								<includes>
+									<include>*.war</include>
+								</includes>
+							</resource>
+						</resources>
+					</deployment>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
